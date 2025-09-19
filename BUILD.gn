@@ -27,6 +27,10 @@ group("secure_aem_v8a_fvp_vhe") {
   deps = [ "//src:hafnium(:secure_aem_v8a_fvp_vhe_clang)" ]
 }
 
+group("secure_cix_aarch64") {
+  deps = [ "//src:hafnium(:secure_cix_aarch64_clang)" ]
+}
+
 group("secure_qemu_aarch64") {
   deps = [ "//src:hafnium(:secure_qemu_aarch64_clang)" ]
 }
@@ -244,6 +248,35 @@ aarch64_toolchains("qemu_aarch64_vhe") {
     plat_log_level = "LOG_LEVEL_INFO"
   }
 }
+
+aarch64_toolchains("secure_cix_aarch64") {
+  cpu = "cortex-a78"
+  origin_address = "0x80500000"
+  memory_protect = "//src/memory_protect:absent"
+  boot_flow = "//src/boot_flow:spmc"
+  console = "//src/arch/aarch64/pl011"
+  iommu = "//src/iommu:absent"
+  gic_version = 3
+  gicd_base_address = "0x30000000"
+  gicr_base_address = "0x30800000"
+  gicr_frames = 8
+  heap_pages = 180
+  max_cpus = 8
+  max_vms = 16
+  branch_protection = "standard"
+  toolchain_args = {
+    ffa_role = "//src/ffa:spmc"
+    plat_psci = "//src/arch/aarch64/plat/psci:spmc"
+    plat_interrupts = "//src/arch/aarch64/plat/interrupts:gicv3"
+    secure_world = "1"
+    pl011_base_address = "0x40d0000"
+    hftest_ctrl = "//test/hftest:ctrl_uart"
+    enable_mte = "1"
+    plat_log_level = "LOG_LEVEL_VERBOSE"
+    plat_num_virtual_interrupts_ids = 1024
+  }
+}
+
 
 aarch64_toolchains("secure_qemu_aarch64") {
   cpu = "cortex-a57"
