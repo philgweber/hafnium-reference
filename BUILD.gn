@@ -256,9 +256,9 @@ aarch64_toolchains("secure_cix_aarch64") {
   boot_flow = "//src/boot_flow:spmc"
   console = "//src/arch/aarch64/pl011"
   iommu = "//src/iommu:absent"
-  gic_version = 3
-  gicd_base_address = "0x30000000"
-  gicr_base_address = "0x30800000"
+  gic_version = 4
+  gicd_base_address = "0x0e010000"
+  gicr_base_address = "0x0e090000"
   gicr_frames = 8
   heap_pages = 180
   max_cpus = 8
